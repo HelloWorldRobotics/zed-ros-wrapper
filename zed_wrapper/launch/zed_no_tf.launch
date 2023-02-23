@@ -18,9 +18,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <launch>
     <!-- Camera Model and Name -->
-    <arg name="camera_name"           default="zed2" /> <!-- The name you want -->
-    <arg name="camera_model"          default="zed2" /> <!-- 'zed' or 'zedm' or 'zed2' -->
+    <arg name="camera_name"           default="zed" /> <!-- The name you want -->
+    <arg name="camera_model"          default="zed2i" /> <!-- 'zed' or 'zedm' or 'zed2' -->
     <arg name="node_name"             default="zed_node" />
+    <arg name="zed_node_name"        default="zed_node" />
+
 
     <!-- Load SVO file -->
     <arg name="svo_file"              default="" /><!-- <arg name="svo_file" default="path/to/svo/file.svo"> -->
@@ -92,4 +94,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <param name="pos_tracking/publish_tf"            value="false" />
         <param name="pos_tracking/publish_map_tf"        value="false" />
     </node>
+
+    <!-- RTAB-Map -->
+    <arg name="custom_rtabmap_launch_file" default="$(find zed_wrapper)/launch/include/sl_rtabmap.launch.xml"/>
+    <include file="$(arg custom_rtabmap_launch_file)">
+        <arg name="rgb_topic"               default="$(arg zed_node_name)/rgb/image_rect_color" />
+        <arg name="depth_topic"             default="$(arg zed_node_name)/depth/depth_registered" />
+        <arg name="camera_info_topic"       default="$(arg zed_node_name)/rgb/camera_info" />
+        <arg name="depth_camera_info_topic" default="$(arg zed_node_name)/depth/camera_info" />
+    </include> 
 </launch>
