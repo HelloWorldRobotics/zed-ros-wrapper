@@ -405,54 +405,54 @@ void ZEDWrapperNodelet::onInit()
     mPubRawRgb = it_zed.advertiseCamera(rgb_raw_topic, 1); // rgb raw
     NODELET_INFO_STREAM("Advertised on topic " << mPubRawRgb.getTopic());
     NODELET_INFO_STREAM("Advertised on topic " << mPubRawRgb.getInfoTopic());
-    mPubLeft = it_zed.advertiseCamera(left_topic, 1); // left
-    NODELET_INFO_STREAM("Advertised on topic " << mPubLeft.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubLeft.getInfoTopic());
-    mPubRawLeft = it_zed.advertiseCamera(left_raw_topic, 1); // left raw
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeft.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeft.getInfoTopic());
-    mPubRight = it_zed.advertiseCamera(right_topic, 1); // right
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRight.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRight.getInfoTopic());
-    mPubRawRight = it_zed.advertiseCamera(right_raw_topic, 1); // right raw
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawRight.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawRight.getInfoTopic());
+    // mPubLeft = it_zed.advertiseCamera(left_topic, 1); // left
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubLeft.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubLeft.getInfoTopic());
+    // mPubRawLeft = it_zed.advertiseCamera(left_raw_topic, 1); // left raw
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeft.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeft.getInfoTopic());
+    // mPubRight = it_zed.advertiseCamera(right_topic, 1); // right
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRight.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRight.getInfoTopic());
+    // mPubRawRight = it_zed.advertiseCamera(right_raw_topic, 1); // right raw
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawRight.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawRight.getInfoTopic());
 
-    mPubRgbGray = it_zed.advertiseCamera(rgb_gray_topic, 1); // rgb
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRgbGray.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRgbGray.getInfoTopic());
-    mPubRawRgbGray = it_zed.advertiseCamera(rgb_raw_gray_topic, 1); // rgb raw
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawRgbGray.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawRgbGray.getInfoTopic());
-    mPubLeftGray = it_zed.advertiseCamera(left_gray_topic, 1); // left
-    NODELET_INFO_STREAM("Advertised on topic " << mPubLeftGray.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubLeftGray.getInfoTopic());
-    mPubRawLeftGray = it_zed.advertiseCamera(left_raw_gray_topic, 1); // left raw
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeftGray.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeftGray.getInfoTopic());
-    mPubRightGray = it_zed.advertiseCamera(right_gray_topic, 1); // right
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRightGray.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRightGray.getInfoTopic());
-    mPubRawRightGray = it_zed.advertiseCamera(right_raw_gray_topic, 1); // right raw
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawRightGray.getTopic());
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawRightGray.getInfoTopic());
+    // mPubRgbGray = it_zed.advertiseCamera(rgb_gray_topic, 1); // rgb
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRgbGray.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRgbGray.getInfoTopic());
+    // mPubRawRgbGray = it_zed.advertiseCamera(rgb_raw_gray_topic, 1); // rgb raw
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawRgbGray.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawRgbGray.getInfoTopic());
+    // mPubLeftGray = it_zed.advertiseCamera(left_gray_topic, 1); // left
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubLeftGray.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubLeftGray.getInfoTopic());
+    // mPubRawLeftGray = it_zed.advertiseCamera(left_raw_gray_topic, 1); // left raw
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeftGray.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawLeftGray.getInfoTopic());
+    // mPubRightGray = it_zed.advertiseCamera(right_gray_topic, 1); // right
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRightGray.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRightGray.getInfoTopic());
+    // mPubRawRightGray = it_zed.advertiseCamera(right_raw_gray_topic, 1); // right raw
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawRightGray.getTopic());
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawRightGray.getInfoTopic());
 
     mPubDepth = it_zed.advertiseCamera(depth_topic_root, 1); // depth
     NODELET_INFO_STREAM("Advertised on topic " << mPubDepth.getTopic());
     NODELET_INFO_STREAM("Advertised on topic " << mPubDepth.getInfoTopic());
 
-    mPubStereo = it_zed.advertise(stereo_topic, 1);
-    NODELET_INFO_STREAM("Advertised on topic " << mPubStereo.getTopic());
-    mPubRawStereo = it_zed.advertise(stereo_raw_topic, 1);
-    NODELET_INFO_STREAM("Advertised on topic " << mPubRawStereo.getTopic());
+    // mPubStereo = it_zed.advertise(stereo_topic, 1);
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubStereo.getTopic());
+    // mPubRawStereo = it_zed.advertise(stereo_raw_topic, 1);
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubRawStereo.getTopic());
 
-    // Confidence Map publisher
-    mPubConfMap = mNhNs.advertise<sensor_msgs::Image>(conf_map_topic, 1); // confidence map
-    NODELET_INFO_STREAM("Advertised on topic " << mPubConfMap.getTopic());
+    // // Confidence Map publisher
+    // mPubConfMap = mNhNs.advertise<sensor_msgs::Image>(conf_map_topic, 1); // confidence map
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubConfMap.getTopic());
 
-    // Disparity publisher
-    mPubDisparity = mNhNs.advertise<stereo_msgs::DisparityImage>(disparityTopic, static_cast<int>(mVideoDepthFreq));
-    NODELET_INFO_STREAM("Advertised on topic " << mPubDisparity.getTopic());
+    // // Disparity publisher
+    // mPubDisparity = mNhNs.advertise<stereo_msgs::DisparityImage>(disparityTopic, static_cast<int>(mVideoDepthFreq));
+    // NODELET_INFO_STREAM("Advertised on topic " << mPubDisparity.getTopic());
 
     // PointCloud publishers
     mPubCloud = mNhNs.advertise<sensor_msgs::PointCloud2>(pointcloud_topic, 1);
