@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <arg name="base_frame"            default="base_link" />
 
     <!-- Publish ZED urdf -->
-    <arg name="publish_urdf"          default="false" />
+    <arg name="publish_urdf"          default="true" />
 
     <arg name="camera_id"             default="0" />
     <arg name="gpu_id"                default="-1" />
@@ -95,12 +95,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <param name="pos_tracking/publish_map_tf"        value="false" />
     </node>
 
-    <!-- RTAB-Map -->
-    <!-- <arg name="custom_rtabmap_launch_file" default="$(find zed_wrapper)/launch/include/sl_rtabmap.launch.xml"/>
-    <include file="$(arg custom_rtabmap_launch_file)">
-        <arg name="rgb_topic"               default="$(arg zed_node_name)/rgb/image_rect_color" />
-        <arg name="depth_topic"             default="$(arg zed_node_name)/depth/depth_registered" />
-        <arg name="camera_info_topic"       default="$(arg zed_node_name)/rgb/camera_info" />
-        <arg name="depth_camera_info_topic" default="$(arg zed_node_name)/depth/camera_info" />
-    </include>  -->
+    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+
+    <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
+        <remap from="~input" to="/zed_node/point_cloud/cloud_registered" />
+        <rosparam>
+        filter_field_name: z
+        filter_limit_min: -3
+        filter_limit_max: 1
+        filter_limit_negative: False
+        leaf_size: 0.08
+        </rosparam>
+    </node>
+
 </launch>
