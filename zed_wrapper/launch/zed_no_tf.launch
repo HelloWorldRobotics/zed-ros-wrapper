@@ -102,10 +102,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <rosparam>
         filter_field_name: z
         filter_limit_min: -3
-        filter_limit_max: 1
+        filter_limit_max: 0
         filter_limit_negative: False
-        leaf_size: 0.08
+        leaf_size: 0.05
         </rosparam>
     </node>
+
+    <node pkg="nodelet" type="nodelet" name="voxel_grid_2" args="load pcl/VoxelGrid pcl_manager" output="screen">
+        <remap from="~input" to="/voxel_grid/output" />
+        <remap from="~output" to="/points_down" />
+        <rosparam>
+        filter_field_name: x
+        filter_limit_min: 0
+        filter_limit_max: 4.0
+        filter_limit_negative: False
+        </rosparam>
+    </node>
+
+    <!-- <node pkg="nodelet" type="nodelet" name="obstacles_detection" args="load rtabmap_ros/obstacles_detection stereo_nodelet"--> 
+    <!-- <node pkg="nodelet" type="nodelet" name="obstacles_detection" args="standalone rtabmap_ros/obstacles_detection">
+      <remap from="cloud" to="/voxel_grid/output"/>
+      <remap from="obstacles" to="/planner_cloud"/>
+
+      <param name="frame_id" type="string" value="zed_base_link"/>
+      <param name="Grid/MaxGroundAngle" type="double" value="12" />
+      <param name="Grid/MinClusterSize" type="int" value="5"/>
+      <param name="Grid/MaxObstacleHeight" type="double" value="0.0"/>
+   </node> -->
 
 </launch>
