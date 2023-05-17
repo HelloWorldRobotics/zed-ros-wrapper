@@ -4,7 +4,7 @@
 
 # Dynamic parameters cannot have a namespace
 brightness:                 4                                   # Dynamic
-contrast:                   4                                   # Dynamic
+contrast:                   6                                   # Dynamic
 hue:                        0                                   # Dynamic
 saturation:                 4                                   # Dynamic
 sharpness:                  4                                   # Dynamic
@@ -15,7 +15,7 @@ exposure:                   50                                 # Dynamic - works
 auto_whitebalance:          true                                # Dynamic
 whitebalance_temperature:   65                                  # Dynamic - works only if `auto_whitebalance` is false
 depth_confidence:           100                                  # Dynamic
-depth_texture_conf:         65                                 # Dynamic
+depth_texture_conf:         50 # Dynamic
 pub_frame_rate:             15.0                                # Dynamic - frequency of publishing of video and depth data
 point_cloud_freq:           15.0                                # Dynamic - frequency of the pointcloud publishing (equal or less to `grab_frame_rate` value)
 
