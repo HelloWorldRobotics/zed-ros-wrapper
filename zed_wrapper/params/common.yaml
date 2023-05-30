@@ -34,7 +34,7 @@ video:
     img_downsample_factor:      0.5                             # Resample factor for images [0.01,1.0] The SDK works with native image sizes, but publishes rescaled image.
 
 depth:
-    quality:                    3
+    quality:                    1
                                    # '0': NONE, '1': PERFORMANCE, '2': QUALITY, '3': ULTRA, '4': NEURAL
     depth_stabilization:        1                               # `0`: disabled, `1`: enabled
     openni_depth_mode:          false                           # 'false': 32bit float meters, 'true': 16bit uchar millimeters
