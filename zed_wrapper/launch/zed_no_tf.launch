@@ -42,9 +42,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <arg name="gpu_id"                default="-1" />
 
     <!-- Position respect to base frame (i.e. "base_link) -->
-    <arg name="cam_pos_x"             default="0.3" />
+    <!-- <arg name="cam_pos_x"             default="0.3" />
     <arg name="cam_pos_y"             default="0.0" />
-    <arg name="cam_pos_z"             default="0.58" />
+    <arg name="cam_pos_z"             default="0.58" /> -->
+    <arg name="cam_pos_x"             default="0.3005" />
+    <arg name="cam_pos_y"             default="0.0" />
+    <arg name="cam_pos_z"             default="0.4732" />
 
     <!-- Orientation respect to base frame (i.e. "base_link) -->
     <arg name="cam_roll"              default="0.0" />
