@@ -16,7 +16,7 @@ auto_whitebalance:          true                                # Dynamic
 whitebalance_temperature:   65                                  # Dynamic - works only if `auto_whitebalance` is false
 depth_confidence:           100                                  # Dynamic
 depth_texture_conf:         50 # Dynamic
-pub_frame_rate:             10.0                                # Dynamic - frequency of publishing of video and depth data,default:15
+pub_frame_rate:             15.0                                # Dynamic - frequency of publishing of video and depth data,default:15
 point_cloud_freq:           10.0                                # Dynamic - frequency of the pointcloud publishing (equal or less to `grab_frame_rate` value), default:15
 
 general:

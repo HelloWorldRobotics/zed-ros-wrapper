@@ -196,7 +196,7 @@ void ZEDWrapperNodelet::onInit()
         mSvoMode = true;
     } else {
         mZedParams.camera_fps = mCamFrameRate;
-        mZedParams.camera_resolution = static_cast<sl::RESOLUTION>(mCamResol);
+        mZedParams.camera_resolution = mCamResol;
 
         if (mZedSerialNumber == 0) {
             mZedParams.input.setFromCameraID(mZedId);
@@ -578,35 +578,6 @@ void ZEDWrapperNodelet::readParameters()
 
     // ----> General
     // Get parameters from param files
-    mNhNs.getParam("general/camera_name", mCameraName);
-    NODELET_INFO_STREAM(" * Camera Name\t\t\t-> " << mCameraName.c_str());
-    int resol;
-    mNhNs.getParam("general/resolution", resol);
-    mCamResol = static_cast<sl::RESOLUTION>(resol);
-    NODELET_INFO_STREAM(" * Camera Resolution\t\t-> " << sl::toString(mCamResol).c_str());
-    mNhNs.getParam("general/grab_frame_rate", mCamFrameRate);
-    checkResolFps();
-    NODELET_INFO_STREAM(" * Camera Grab Framerate\t-> " << mCamFrameRate);
-
-    mNhNs.getParam("general/gpu_id", mGpuId);
-    NODELET_INFO_STREAM(" * Gpu ID\t\t\t-> " << mGpuId);
-    mNhNs.getParam("general/zed_id", mZedId);
-    NODELET_INFO_STREAM(" * Camera ID\t\t\t-> " << mZedId);
-    mNhNs.getParam("general/verbose", mVerbose);
-    NODELET_INFO_STREAM(" * Verbose\t\t\t-> " << (mVerbose ? "ENABLED" : "DISABLED"));
-    mNhNs.param<bool>("general/camera_flip", mCameraFlip, false);
-    NODELET_INFO_STREAM(" * Camera Flip\t\t\t-> " << (mCameraFlip ? "ENABLED" : "DISABLED"));
-    mNhNs.param<bool>("general/self_calib", mCameraSelfCalib, true);
-    NODELET_INFO_STREAM(" * Self calibration\t\t-> " << (mCameraSelfCalib ? "ENABLED" : "DISABLED"));
-
-    int tmp_sn = 0;
-    mNhNs.getParam("general/serial_number", tmp_sn);
-
-    if (tmp_sn > 0) {
-        mZedSerialNumber = static_cast<int>(tmp_sn);
-        NODELET_INFO_STREAM(" * Serial number\t\t-> " << mZedSerialNumber);
-    }
-
     std::string camera_model;
     mNhNs.getParam("general/camera_model", camera_model);
 
@@ -630,7 +601,38 @@ void ZEDWrapperNodelet::readParameters()
         NODELET_INFO_STREAM(" * Camera Model by param\t-> " << camera_model);
     } else {
         NODELET_ERROR_STREAM("Camera model not valid: " << camera_model);
+        exit(EXIT_FAILURE);
     }
+
+    mNhNs.getParam("general/camera_name", mCameraName);
+    NODELET_INFO_STREAM(" * Camera Name\t\t\t-> " << mCameraName.c_str());
+    int resol;
+    mNhNs.getParam("general/resolution", resol);
+    mCamResol = static_cast<sl::RESOLUTION>(resol);
+    checkResol();
+    NODELET_INFO_STREAM(" * Camera Resolution\t\t-> " << sl::toString(mCamResol).c_str());    
+    mNhNs.getParam("general/grab_frame_rate", mCamFrameRate);
+    checkResolFps();
+    NODELET_INFO_STREAM(" * Camera Grab Framerate\t-> " << mCamFrameRate);
+
+    mNhNs.getParam("general/gpu_id", mGpuId);
+    NODELET_INFO_STREAM(" * Gpu ID\t\t\t-> " << mGpuId);
+    mNhNs.getParam("general/zed_id", mZedId);
+    NODELET_INFO_STREAM(" * Camera ID\t\t\t-> " << mZedId);
+    mNhNs.getParam("general/verbose", mVerbose);
+    NODELET_INFO_STREAM(" * Verbose\t\t\t-> " << (mVerbose ? "ENABLED" : "DISABLED"));
+    mNhNs.param<bool>("general/camera_flip", mCameraFlip, false);
+    NODELET_INFO_STREAM(" * Camera Flip\t\t\t-> " << (mCameraFlip ? "ENABLED" : "DISABLED"));
+    mNhNs.param<bool>("general/self_calib", mCameraSelfCalib, true);
+    NODELET_INFO_STREAM(" * Self calibration\t\t-> " << (mCameraSelfCalib ? "ENABLED" : "DISABLED"));
+
+    int tmp_sn = 0;
+    mNhNs.getParam("general/serial_number", tmp_sn);
+
+    if (tmp_sn > 0) {
+        mZedSerialNumber = static_cast<int>(tmp_sn);
+        NODELET_INFO_STREAM(" * Serial number\t\t-> " << mZedSerialNumber);
+    }    
     // <---- General
 
     NODELET_INFO_STREAM("*** VIDEO PARAMETERS ***");
@@ -650,7 +652,7 @@ void ZEDWrapperNodelet::readParameters()
     mNhNs.getParam("depth/openni_depth_mode", mOpenniDepthMode);
     NODELET_INFO_STREAM(" * OpenNI mode\t\t\t-> " << (mOpenniDepthMode ? "ENABLED" : "DISABLED"));
     mNhNs.getParam("depth/depth_stabilization", mDepthStabilization);
-    NODELET_INFO_STREAM(" * Depth Stabilization\t\t-> " << (mDepthStabilization ? "ENABLED" : "DISABLED"));
+    NODELET_INFO_STREAM(" * Depth Stabilization\t\t-> " << mDepthStabilization );
     mNhNs.getParam("depth/min_depth", mCamMinDepth);
     NODELET_INFO_STREAM(" * Minimum depth\t\t-> " << mCamMinDepth << " m");
     mNhNs.getParam("depth/max_depth", mCamMaxDepth);
@@ -922,6 +924,54 @@ void ZEDWrapperNodelet::readParameters()
     // <---- Dynamic
 }
 
+void ZEDWrapperNodelet::checkResol()
+{
+    switch (mCamResol) {
+        case sl::RESOLUTION::HD2K:
+            if (mZedUserCamModel == sl::MODEL::ZED_X || mZedUserCamModel == sl::MODEL::ZED_XM) {
+                NODELET_WARN("Selected a not valid resolution. Modified to 'AUTO'");
+                mCamResol = sl::RESOLUTION::AUTO;
+            }
+        break;
+
+        case sl::RESOLUTION::HD1200:
+            if (mZedUserCamModel != sl::MODEL::ZED_X && mZedUserCamModel != sl::MODEL::ZED_XM) {
+                NODELET_WARN("Selected a not valid resolution. Modified to 'AUTO'");
+                mCamResol = sl::RESOLUTION::AUTO;
+            }
+        break;
+
+        case sl::RESOLUTION::HD1080:
+        break;
+
+        case sl::RESOLUTION::HD720 :
+            if (mZedUserCamModel == sl::MODEL::ZED_X || mZedUserCamModel == sl::MODEL::ZED_XM) {
+                NODELET_WARN("Selected a not valid resolution. Modified to 'AUTO'");
+                mCamResol = sl::RESOLUTION::AUTO;
+            }
+        break;
+
+        case sl::RESOLUTION::SVGA:
+            if (mZedUserCamModel != sl::MODEL::ZED_X && mZedUserCamModel != sl::MODEL::ZED_XM) {
+                NODELET_WARN("Selected a not valid resolution. Modified to 'AUTO'");
+                mCamResol = sl::RESOLUTION::AUTO;
+            }
+        break;
+
+        case sl::RESOLUTION::VGA:
+            if (mZedUserCamModel == sl::MODEL::ZED_X || mZedUserCamModel == sl::MODEL::ZED_XM) {
+                NODELET_WARN("Selected a not valid resolution. Modified to 'AUTO'");
+                mCamResol = sl::RESOLUTION::AUTO;
+            }
+        break;
+
+        default:
+            NODELET_WARN("Selected a not valid resolution. Modified to 'AUTO'");
+            mCamResol = sl::RESOLUTION::AUTO;
+            break;
+    }
+}
+
 void ZEDWrapperNodelet::checkResolFps()
 {
     switch (mCamResol) {
@@ -934,19 +984,39 @@ void ZEDWrapperNodelet::checkResolFps()
         break;
 
     case sl::RESOLUTION::HD1080:
-        if (mCamFrameRate == 15 || mCamFrameRate == 30) {
-            break;
-        }
+        if (mZedUserCamModel == sl::MODEL::ZED_X || mZedUserCamModel == sl::MODEL::ZED_XM) 
+        {
+            if (mCamFrameRate == 60 || mCamFrameRate == 30) {
+                break;
+            }
 
-        if (mCamFrameRate > 15 && mCamFrameRate < 30) {
-            NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 15 FPS.");
-            mCamFrameRate = 15;
-        } else if (mCamFrameRate > 30) {
-            NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 30 FPS.");
-            mCamFrameRate = 30;
-        } else {
-            NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 15 FPS.");
-            mCamFrameRate = 15;
+            if (mCamFrameRate > 30 && mCamFrameRate < 60) {
+                NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 30 FPS.");
+                mCamFrameRate = 30;
+            } else if (mCamFrameRate > 60) {
+                NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 60 FPS.");
+                mCamFrameRate = 60;
+            } else {
+                NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 30 FPS.");
+                mCamFrameRate = 30;
+            }
+        }
+        else
+        {
+            if (mCamFrameRate == 15 || mCamFrameRate == 30) {
+                break;
+            }
+
+            if (mCamFrameRate > 15 && mCamFrameRate < 30) {
+                NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 15 FPS.");
+                mCamFrameRate = 15;
+            } else if (mCamFrameRate > 30) {
+                NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 30 FPS.");
+                mCamFrameRate = 30;
+            } else {
+                NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 15 FPS.");
+                mCamFrameRate = 15;
+            }
         }
 
         break;
@@ -1651,7 +1721,7 @@ void ZEDWrapperNodelet::publishOdom(tf2::Transform odom2baseTransf, sl::Pose& sl
         if (mTwoDMode) {
             if (i == 14 || i == 21 || i == 28) {
                 odomMsg->pose.covariance[i] = 1e-9; // Very low covariance if 2D mode
-            } else if ((i >= 2 && i <= 4) || (i >= 8 && i <= 10) || (i >= 12 && i <= 13) || (i >= 15 && i <= 16) || (i >= 18 && i <= 20) || (i == 22) || (i >= 24 && i <= 27)) {
+            } else if ((i >= 2 && i <= 4) || (i >= 8 && i <= 10) || (i >= 12 && i <= 13) || (i >= 15 && i <= 20) || (i >= 22 && i <= 27) || (i == 29) || (i >= 32 && i <= 34)) {
                 odomMsg->pose.covariance[i] = 0.0;
             }
         }
