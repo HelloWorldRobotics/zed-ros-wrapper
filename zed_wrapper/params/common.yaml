@@ -31,7 +31,7 @@ general:
     camera_flip:                false
 
 video:
-    img_downsample_factor:      0.5                             # Resample factor for images [0.01,1.0] The SDK works with native image sizes, but publishes rescaled image.
+    img_downsample_factor:      1                             # Resample factor for images [0.01,1.0] The SDK works with native image sizes, but publishes rescaled image.
 
 depth:
     quality:                    1
@@ -41,7 +41,7 @@ depth:
     depth_downsample_factor:    0.5                             # Resample factor for depth data matrices [0.01,1.0] The SDK works with native data sizes, but publishes rescaled matrices (depth map, point cloud, ...)
 
 pos_tracking:
-    pos_tracking_enabled:       true                            # True to enable positional tracking from start
+    pos_tracking_enabled:       false                            # True to enable positional tracking from start
     imu_fusion:                 true                            # enable/disable IMU fusion. When set to false, only the optical odometry will be used.
     publish_tf:                 false                            # publish `odom -> base_link` TF
     publish_map_tf:             false                            # publish `map -> odom` TF
