@@ -24,8 +24,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <arg name="camera_name"           default="zed" /> <!-- The name you want -->
     <arg name="camera_model"          default="zed2i" /> <!-- 'zed' or 'zedm' or 'zed2' -->
     <arg name="node_name"             default="zed_node" />
-    <arg name="zed_node_name"        default="zed_node" />
-
 
     <!-- Load SVO file -->
     <arg name="svo_file"              default="" /><!-- <arg name="svo_file" default="path/to/svo/file.svo"> -->
@@ -42,9 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <arg name="gpu_id"                default="-1" />
 
     <!-- Position respect to base frame (i.e. "base_link) -->
-    <!-- <arg name="cam_pos_x"             default="0.3" />
-    <arg name="cam_pos_y"             default="0.0" />
-    <arg name="cam_pos_z"             default="0.58" /> -->
     <arg name="cam_pos_x"             default="0.3005" />
     <arg name="cam_pos_y"             default="0.0" />
     <arg name="cam_pos_z"             default="0.4732" />
@@ -73,70 +68,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <remap from="robot_description" to="zed_description" />
         </node>
     </group>
-    
+
     <group if="$(arg read_real_time)">
 
-        <node name="$(arg node_name)" pkg="zed_wrapper" type="zed_wrapper_node" output="screen" required="true"><!-- launch-prefix="valgrind" -->
-            <rosparam file="$(find zed_wrapper)/params/common.yaml" command="load" />
-            <rosparam file="$(find zed_wrapper)/params/$(arg camera_model).yaml" command="load" />
+    <node name="$(arg node_name)" pkg="zed_wrapper" type="zed_wrapper_node" output="screen" required="true"><!-- launch-prefix="valgrind" -->
+        <rosparam file="$(find zed_wrapper)/params/common.yaml" command="load" />
+        <rosparam file="$(find zed_wrapper)/params/$(arg camera_model).yaml" command="load" />
 
-            <!-- Camera name -->
-            <param name="general/camera_name"               value="$(arg camera_name)" />
+        <!-- Camera name -->
+        <param name="general/camera_name"               value="$(arg camera_name)" />
 
-            <!-- Base frame -->
-            <param name="general/base_frame"                value="$(arg base_frame)" />
+        <!-- Base frame -->
+        <param name="general/base_frame"                value="$(arg base_frame)" />
 
-            <!-- SVO file path -->
-            <param name="svo_file"                          value="$(arg svo_file)" />
+        <!-- SVO file path -->
+        <param name="svo_file"                          value="$(arg svo_file)" />
 
-            <!-- Remote stream -->
-            <param name="stream"                            value="$(arg stream)" />
+        <!-- Remote stream -->
+        <param name="stream"                            value="$(arg stream)" />
 
-            <!-- Camera ID -->
-            <param name="general/zed_id"                    value="$(arg camera_id)" />
+        <!-- Camera ID -->
+        <param name="general/zed_id"                    value="$(arg camera_id)" />
 
-            <!-- GPU ID -->
-            <param name="general/gpu_id"                    value="$(arg gpu_id)" />
+        <!-- GPU ID -->
+        <param name="general/gpu_id"                    value="$(arg gpu_id)" />
 
-            <!-- Disable TF publishing -->
-            <param name="pos_tracking/publish_tf"            value="false" />
-            <param name="pos_tracking/publish_map_tf"        value="false" />
-        </node>
+        <!-- Disable TF publishing -->
+        <param name="pos_tracking/publish_tf"            value="false" />
+        <param name="pos_tracking/publish_map_tf"        value="false" />
+    </node>
     </group>
-
-    <!-- <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" /> -->
-
-    <!-- <node pkg="nodelet" type="nodelet" name="voxel_grid" args="load pcl/VoxelGrid pcl_manager" output="screen">
-        <remap from="~input" to="/zed_node/point_cloud/cloud_registered" />
-        <rosparam>
-        filter_field_name: z
-        filter_limit_min: -3
-        filter_limit_max: 0.2
-        filter_limit_negative: False
-        leaf_size: 0.05
-        </rosparam>
-    </node> -->
-
-    <!-- <node pkg="nodelet" type="nodelet" name="voxel_grid_2" args="load pcl/VoxelGrid pcl_manager" output="screen">
-        <remap from="~input" to="/voxel_grid/output" />
-        <remap from="~output" to="/points_down" />
-        <rosparam>
-        filter_field_name: x
-        filter_limit_min: 0
-        filter_limit_max: 4.0
-        filter_limit_negative: False
-        </rosparam>
-    </node> -->
-
-    <!-- <node pkg="nodelet" type="nodelet" name="obstacles_detection" args="load rtabmap_ros/obstacles_detection stereo_nodelet"--> 
-    <!-- <node pkg="nodelet" type="nodelet" name="obstacles_detection" args="standalone rtabmap_ros/obstacles_detection">
-      <remap from="cloud" to="/voxel_grid/output"/>
-      <remap from="obstacles" to="/planner_cloud"/>
-
-      <param name="frame_id" type="string" value="zed_base_link"/>
-      <param name="Grid/MaxGroundAngle" type="double" value="12" />
-      <param name="Grid/MinClusterSize" type="int" value="5"/>
-      <param name="Grid/MaxObstacleHeight" type="double" value="0.0"/>
-   </node> -->
-
 </launch>
