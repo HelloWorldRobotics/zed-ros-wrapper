@@ -585,18 +585,18 @@ void ZEDWrapperNodelet::onInit()
 
     if (mZedRealCamModel == sl::MODEL::ZED2 || mZedRealCamModel == sl::MODEL::ZED2i)
     {
-      mPubImuMag = mNhNs.advertise<sensor_msgs::MagneticField>(imu_mag_topic, 1);
-      NODELET_INFO_STREAM(" * Advertised on topic " << mPubImuMag.getTopic());
+      // mPubImuMag = mNhNs.advertise<sensor_msgs::MagneticField>(imu_mag_topic, 1);
+      // NODELET_INFO_STREAM(" * Advertised on topic " << mPubImuMag.getTopic());
 
-      // Atmospheric pressure
-      mPubPressure = mNhNs.advertise<sensor_msgs::FluidPressure>(pressure_topic, 1);
-      NODELET_INFO_STREAM(" * Advertised on topic " << mPubPressure.getTopic());
+      // // Atmospheric pressure
+      // mPubPressure = mNhNs.advertise<sensor_msgs::FluidPressure>(pressure_topic, 1);
+      // NODELET_INFO_STREAM(" * Advertised on topic " << mPubPressure.getTopic());
 
-      // CMOS sensor temperatures
-      mPubTempL = mNhNs.advertise<sensor_msgs::Temperature>(temp_topic_left, 1);
-      NODELET_INFO_STREAM(" * Advertised on topic " << mPubTempL.getTopic());
-      mPubTempR = mNhNs.advertise<sensor_msgs::Temperature>(temp_topic_right, 1);
-      NODELET_INFO_STREAM(" * Advertised on topic " << mPubTempR.getTopic());
+      // // CMOS sensor temperatures
+      // mPubTempL = mNhNs.advertise<sensor_msgs::Temperature>(temp_topic_left, 1);
+      // NODELET_INFO_STREAM(" * Advertised on topic " << mPubTempL.getTopic());
+      // mPubTempR = mNhNs.advertise<sensor_msgs::Temperature>(temp_topic_right, 1);
+      // NODELET_INFO_STREAM(" * Advertised on topic " << mPubTempR.getTopic());
     }
 
     // Publish camera imu transform in a latched topic
