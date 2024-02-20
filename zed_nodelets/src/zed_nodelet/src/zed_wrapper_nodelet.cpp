@@ -492,7 +492,7 @@ void ZEDWrapperNodelet::onInit()
   // NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawStereo.getTopic());
 
   // Detected planes publisher
-  mPubPlane = mNhNs.advertise<zed_interfaces::PlaneStamped>(plane_topic, 1);
+  // mPubPlane = mNhNs.advertise<zed_interfaces::PlaneStamped>(plane_topic, 1);
 
   if (!mDepthDisabled)
   {
@@ -509,8 +509,8 @@ void ZEDWrapperNodelet::onInit()
     // NODELET_INFO_STREAM(" * Advertised on topic " << mPubDisparity.getTopic());
 
     // PointCloud publishers
-    mPubCloud = mNhNs.advertise<sensor_msgs::PointCloud2>(pointcloud_topic, 1);
-    NODELET_INFO_STREAM(" * Advertised on topic " << mPubCloud.getTopic());
+    // mPubCloud = mNhNs.advertise<sensor_msgs::PointCloud2>(pointcloud_topic, 1);
+    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubCloud.getTopic());
 
     if (mMappingEnabled)
     {
@@ -526,21 +526,21 @@ void ZEDWrapperNodelet::onInit()
     }
 
     // Odometry and Pose publisher
-    mPubPose = mNhNs.advertise<geometry_msgs::PoseStamped>(poseTopic, 1);
-    NODELET_INFO_STREAM(" * Advertised on topic " << mPubPose.getTopic());
-    mPubPoseCov = mNhNs.advertise<geometry_msgs::PoseWithCovarianceStamped>(pose_cov_topic, 1);
-    NODELET_INFO_STREAM(" * Advertised on topic " << mPubPoseCov.getTopic());
+    // mPubPose = mNhNs.advertise<geometry_msgs::PoseStamped>(poseTopic, 1);
+    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubPose.getTopic());
+    // mPubPoseCov = mNhNs.advertise<geometry_msgs::PoseWithCovarianceStamped>(pose_cov_topic, 1);
+    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubPoseCov.getTopic());
 
-    mPubOdom = mNhNs.advertise<nav_msgs::Odometry>(odometryTopic, 1);
-    NODELET_INFO_STREAM(" * Advertised on topic " << mPubOdom.getTopic());
+    // mPubOdom = mNhNs.advertise<nav_msgs::Odometry>(odometryTopic, 1);
+    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubOdom.getTopic());
 
-    mPubOdomStatus = mNhNs.advertise<zed_interfaces::PosTrackStatus>(odomStatusTopic, 1);
-    NODELET_INFO_STREAM(" * Advertised on topic " << mPubOdomStatus.getTopic());
-    mPubPoseStatus = mNhNs.advertise<zed_interfaces::PosTrackStatus>(poseStatusTopic, 1);
-    NODELET_INFO_STREAM(" * Advertised on topic " << mPubPoseStatus.getTopic());
+    // mPubOdomStatus = mNhNs.advertise<zed_interfaces::PosTrackStatus>(odomStatusTopic, 1);
+    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubOdomStatus.getTopic());
+    // mPubPoseStatus = mNhNs.advertise<zed_interfaces::PosTrackStatus>(poseStatusTopic, 1);
+    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubPoseStatus.getTopic());
 
     // Rviz markers publisher
-    mPubMarker = mNhNs.advertise<visualization_msgs::Marker>(marker_topic, 10, true);
+    // mPubMarker = mNhNs.advertise<visualization_msgs::Marker>(marker_topic, 10, true);
 
     // Camera Path
     if (mPathPubRate > 0)

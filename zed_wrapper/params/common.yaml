@@ -40,7 +40,7 @@ general:
 #video:
 
 depth:
-    depth_mode:                 'PERFORMANCE'                         # 'NONE', 'PERFORMANCE', 'QUALITY', 'ULTRA', 'NEURAL'
+    depth_mode:                 'NONE'                         # 'NONE', 'PERFORMANCE', 'QUALITY', 'ULTRA', 'NEURAL'
     depth_stabilization:        1                               # [0-100] - 0: Disabled
     openni_depth_mode:          false                           # 'false': 32bit float meter units, 'true': 16bit uchar millimeter units
 
@@ -59,7 +59,7 @@ pos_tracking:
     floor_alignment:            false                           # Enable to automatically calculate camera/floor offset
     initial_base_pose:          [0.0,0.0,0.0, 0.0,0.0,0.0]      # Initial position of the `base_frame` -> [X, Y, Z, R, P, Y]
     init_odom_with_first_valid_pose: true                       # Enable to initialize the odometry with the first valid pose
-    path_pub_rate:              2.0                             # Camera trajectory publishing frequency
+    path_pub_rate:              0.0                             # Camera trajectory publishing frequency
     path_max_count:             -1                              # use '-1' for unlimited path size
     two_d_mode:                 false                           # Force navigation on a plane. If true the Z value will be fixed to "fixed_z_value", roll and pitch to zero
     fixed_z_value:              0.00                            # Value to be used for Z coordinate if `two_d_mode` is true
