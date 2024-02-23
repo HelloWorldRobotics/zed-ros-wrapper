@@ -451,9 +451,9 @@ void ZEDWrapperNodelet::onInit()
   mPubRgb = it_zed.advertiseCamera(rgb_topic, 1);  // rgb
   NODELET_INFO_STREAM(" * Advertised on topic " << mPubRgb.getTopic());
   NODELET_INFO_STREAM(" * Advertised on topic " << mPubRgb.getInfoTopic());
-  // mPubRawRgb = it_zed.advertiseCamera(rgb_raw_topic, 1);  // rgb raw
-  // NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawRgb.getTopic());
-  // NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawRgb.getInfoTopic());
+  mPubRawRgb = it_zed.advertiseCamera(rgb_raw_topic, 1);  // rgb raw
+  NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawRgb.getTopic());
+  NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawRgb.getInfoTopic());
   // mPubLeft = it_zed.advertiseCamera(left_topic, 1);  // left
   // NODELET_INFO_STREAM(" * Advertised on topic " << mPubLeft.getTopic());
   // NODELET_INFO_STREAM(" * Advertised on topic " << mPubLeft.getInfoTopic());
