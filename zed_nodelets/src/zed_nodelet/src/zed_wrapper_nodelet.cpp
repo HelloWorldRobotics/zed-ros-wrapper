@@ -451,9 +451,9 @@ void ZEDWrapperNodelet::onInit()
   mPubRgb = it_zed.advertiseCamera(rgb_topic, 1);  // rgb
   NODELET_INFO_STREAM(" * Advertised on topic " << mPubRgb.getTopic());
   NODELET_INFO_STREAM(" * Advertised on topic " << mPubRgb.getInfoTopic());
-  mPubRawRgb = it_zed.advertiseCamera(rgb_raw_topic, 1);  // rgb raw
-  NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawRgb.getTopic());
-  NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawRgb.getInfoTopic());
+  // mPubRawRgb = it_zed.advertiseCamera(rgb_raw_topic, 1);  // rgb raw
+  // NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawRgb.getTopic());
+  // NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawRgb.getInfoTopic());
   // mPubLeft = it_zed.advertiseCamera(left_topic, 1);  // left
   // NODELET_INFO_STREAM(" * Advertised on topic " << mPubLeft.getTopic());
   // NODELET_INFO_STREAM(" * Advertised on topic " << mPubLeft.getInfoTopic());
@@ -492,25 +492,25 @@ void ZEDWrapperNodelet::onInit()
   // NODELET_INFO_STREAM(" * Advertised on topic " << mPubRawStereo.getTopic());
 
   // Detected planes publisher
-  // mPubPlane = mNhNs.advertise<zed_interfaces::PlaneStamped>(plane_topic, 1);
+  mPubPlane = mNhNs.advertise<zed_interfaces::PlaneStamped>(plane_topic, 1);
 
   if (!mDepthDisabled)
   {
-    // mPubDepth = it_zed.advertiseCamera(depth_topic_root, 1);  // depth
-    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubDepth.getTopic());
-    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubDepth.getInfoTopic());
+    mPubDepth = it_zed.advertiseCamera(depth_topic_root, 1);  // depth
+    NODELET_INFO_STREAM(" * Advertised on topic " << mPubDepth.getTopic());
+    NODELET_INFO_STREAM(" * Advertised on topic " << mPubDepth.getInfoTopic());
 
-    // // Confidence Map publisher
-    // mPubConfMap = mNhNs.advertise<sensor_msgs::Image>(conf_map_topic, 1);  // confidence map
-    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubConfMap.getTopic());
+    // Confidence Map publisher
+    mPubConfMap = mNhNs.advertise<sensor_msgs::Image>(conf_map_topic, 1);  // confidence map
+    NODELET_INFO_STREAM(" * Advertised on topic " << mPubConfMap.getTopic());
 
-    // // Disparity publisher
-    // mPubDisparity = mNhNs.advertise<stereo_msgs::DisparityImage>(disparityTopic, 1);
-    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubDisparity.getTopic());
+    // Disparity publisher
+    mPubDisparity = mNhNs.advertise<stereo_msgs::DisparityImage>(disparityTopic, 1);
+    NODELET_INFO_STREAM(" * Advertised on topic " << mPubDisparity.getTopic());
 
     // PointCloud publishers
-    // mPubCloud = mNhNs.advertise<sensor_msgs::PointCloud2>(pointcloud_topic, 1);
-    // NODELET_INFO_STREAM(" * Advertised on topic " << mPubCloud.getTopic());
+    mPubCloud = mNhNs.advertise<sensor_msgs::PointCloud2>(pointcloud_topic, 1);
+    NODELET_INFO_STREAM(" * Advertised on topic " << mPubCloud.getTopic());
 
     if (mMappingEnabled)
     {
@@ -540,7 +540,7 @@ void ZEDWrapperNodelet::onInit()
     // NODELET_INFO_STREAM(" * Advertised on topic " << mPubPoseStatus.getTopic());
 
     // Rviz markers publisher
-    // mPubMarker = mNhNs.advertise<visualization_msgs::Marker>(marker_topic, 10, true);
+    mPubMarker = mNhNs.advertise<visualization_msgs::Marker>(marker_topic, 10, true);
 
     // Camera Path
     if (mPathPubRate > 0)
@@ -585,18 +585,18 @@ void ZEDWrapperNodelet::onInit()
 
     if (mZedRealCamModel == sl::MODEL::ZED2 || mZedRealCamModel == sl::MODEL::ZED2i)
     {
-      // mPubImuMag = mNhNs.advertise<sensor_msgs::MagneticField>(imu_mag_topic, 1);
-      // NODELET_INFO_STREAM(" * Advertised on topic " << mPubImuMag.getTopic());
+      mPubImuMag = mNhNs.advertise<sensor_msgs::MagneticField>(imu_mag_topic, 1);
+      NODELET_INFO_STREAM(" * Advertised on topic " << mPubImuMag.getTopic());
 
-      // // Atmospheric pressure
-      // mPubPressure = mNhNs.advertise<sensor_msgs::FluidPressure>(pressure_topic, 1);
-      // NODELET_INFO_STREAM(" * Advertised on topic " << mPubPressure.getTopic());
+      // Atmospheric pressure
+      mPubPressure = mNhNs.advertise<sensor_msgs::FluidPressure>(pressure_topic, 1);
+      NODELET_INFO_STREAM(" * Advertised on topic " << mPubPressure.getTopic());
 
-      // // CMOS sensor temperatures
-      // mPubTempL = mNhNs.advertise<sensor_msgs::Temperature>(temp_topic_left, 1);
-      // NODELET_INFO_STREAM(" * Advertised on topic " << mPubTempL.getTopic());
-      // mPubTempR = mNhNs.advertise<sensor_msgs::Temperature>(temp_topic_right, 1);
-      // NODELET_INFO_STREAM(" * Advertised on topic " << mPubTempR.getTopic());
+      // CMOS sensor temperatures
+      mPubTempL = mNhNs.advertise<sensor_msgs::Temperature>(temp_topic_left, 1);
+      NODELET_INFO_STREAM(" * Advertised on topic " << mPubTempL.getTopic());
+      mPubTempR = mNhNs.advertise<sensor_msgs::Temperature>(temp_topic_right, 1);
+      NODELET_INFO_STREAM(" * Advertised on topic " << mPubTempR.getTopic());
     }
 
     // Publish camera imu transform in a latched topic
@@ -1459,10 +1459,10 @@ void ZEDWrapperNodelet::checkResolFps()
           break;
         }
 
-<<<<<<< HEAD
-        if (mCamFrameRate > 30 && mCamFrameRate < 60)
+        if (mCamFrameRate < 23)
         {
-          NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 30 FPS.");
+          NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Forced to 15 FPS.");
+          mCamFrameRate = 15;
         } 
         else if (mCamFrameRate >= 23 && mCamFrameRate < 45)
         {
@@ -1491,29 +1491,9 @@ void ZEDWrapperNodelet::checkResolFps()
         {
           NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Forced to 30 FPS.");
           mCamFrameRate = 30;
->>>>>>> 1254d3a2893e4d6f53e466bea1f492f6319863e4
         }
       }
 
-        if (mCamFrameRate > 15 && mCamFrameRate < 30)
-        {
-          NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 15 FPS.");
-          mCamFrameRate = 15;
-        }
-        else if (mCamFrameRate > 30)
-        {
-          NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 30 FPS.");
-          mCamFrameRate = 30;
-        }
-        else
-        {
-          NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Set to 15 FPS.");
-          mCamFrameRate = 15;
-        }
-      }
-
-=======
->>>>>>> 1254d3a2893e4d6f53e466bea1f492f6319863e4
       break;
 
     case sl::RESOLUTION::HD720:
@@ -1599,10 +1579,10 @@ void ZEDWrapperNodelet::checkResolFps()
         break;
       }
 
-<<<<<<< HEAD
-      if (mCamFrameRate > 60 && mCamFrameRate < 120)
+      if (mCamFrameRate < 23)
       {
-        NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution SVGA. Set to 60 FPS.");
+        NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1080. Forced to 15 FPS.");
+        mCamFrameRate = 15;
       } 
       else if (mCamFrameRate >= 23 && mCamFrameRate < 45)
       {
@@ -1619,10 +1599,10 @@ void ZEDWrapperNodelet::checkResolFps()
         NODELET_WARN_STREAM("Wrong FrameRate (" << mCamFrameRate << ") for the resolution HD1200. Forced to 120 FPS.");
         mCamFrameRate = 120;
       }
->>>>>>> 1254d3a2893e4d6f53e466bea1f492f6319863e4
 
       break;
 
+    case sl::RESOLUTION::AUTO:
       break;
 
     default:
@@ -4304,7 +4284,10 @@ void ZEDWrapperNodelet::processCameraSettings()
     mDynParMutex.lock();
 
     int value;
+    setting = sl::VIDEO_SETTINGS::BRIGHTNESS;
+    err = mZed.getCameraSettings(setting, value);
     if (err == sl::ERROR_CODE::SUCCESS && value != mCamBrightness)
+    {
       err = mZed.setCameraSettings(setting, mCamBrightness);
     }
     if (err != sl::ERROR_CODE::SUCCESS)
@@ -5270,7 +5253,7 @@ void ZEDWrapperNodelet::clickedPtCallback(geometry_msgs::PointStampedConstPtr ms
   float c_y = zedParam.left_cam.cy;
 
   float out_scale_factor = static_cast<float>(mMatResol.width) / mCamWidth;
-  
+
   float u = ((camX / camZ) * f_x + c_x) / out_scale_factor;
   float v = ((camY / camZ) * f_y + c_y) / out_scale_factor;
   NODELET_INFO_STREAM("Clicked point image coordinates: [" << u << "," << v << "]");
